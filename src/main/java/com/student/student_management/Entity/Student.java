@@ -8,15 +8,26 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long student_id;
+    @Getter
+    @Setter
+    private Long studentId;
 
-    private String student_name;
-    private String student_email;
-    private String student_course;
-    private String student_fees;
+    @Getter
+    @Setter
+    private String studentName;
+
+    @Getter
+    @Setter
+    private String studentEmail;
+
+    @Getter
+    @Setter
+    private String studentCourse;
+
+    @Getter
+    @Setter
+    private String studentFees;
 }

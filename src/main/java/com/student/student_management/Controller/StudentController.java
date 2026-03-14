@@ -9,7 +9,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/students")
 public class StudentController {
-    private StudentService studentService;
+    private final StudentService studentService;
 
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
@@ -36,8 +36,8 @@ public class StudentController {
         return studentService.updateStudent(student);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteStudent(@PathVariable Long id) {
-        studentService.deleteStudentById(id);
+    @PutMapping("/{id}/soft-delete")
+    public void softDeleteStudent(@PathVariable Long id) {
+        studentService.softDeleteStudent(id);
     }
 }

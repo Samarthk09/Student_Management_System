@@ -29,5 +29,9 @@ public class Student {
 
     @Getter
     @Setter
-    private String studentFees;
+    private Double studentFees;
+
+    @Getter
+    @Setter
+    private boolean deleted = false;
 }

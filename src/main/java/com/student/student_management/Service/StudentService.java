@@ -19,18 +19,21 @@ public class StudentService {
     }
 
     public List<Student> getAllStudents() {
-        return studentRepo.findAll();
+        return studentRepo.findByDeletedFalse();
     }
 
     public Student getStudentById(Long id) {
-        return studentRepo.findById(id).get();
+        return studentRepo.findById(id).orElseThrow();
     }
 
     public Student updateStudent(Student student) {
         return studentRepo.save(student);
     }
 
-    public void deleteStudentById(Long id) {
-        studentRepo.deleteById(id);
+    public void softDeleteStudent(Long id) {
+        Student student = studentRepo.findById(id).orElseThrow();
+        student.setDeleted(true);
+        studentRepo.save(student);
+
     }
 }

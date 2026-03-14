@@ -1,106 +1,169 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns="http://www.w3.org/1999/html">
-<head>
+  <head>
     <title>Add Student</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<style>
-    .msg-box{
-        display:inline-block;
-        padding:12px 25px;
-        border-radius:8px;
-        background:#d4edda;
-        color:#155724;
-        border:1px solid #c3e6cb;
-        font-weight:600;
-        margin-top:15px;
-        animation:fadeIn 0.5s ease-in-out;
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <style>
+    .msg-box {
+      display: inline-block;
+      padding: 12px 25px;
+      border-radius: 8px;
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      font-weight: 600;
+      margin-top: 15px;
+      animation: fadeIn 0.5s ease-in-out;
     }
-    @keyframes fadeIn{
-        from{opacity:0; transform:translateY(-10px);}
-        to{opacity:1; transform:translateY(0);}
+    .error-box {
+      display: inline-block;
+      padding: 12px 25px;
+      border-radius: 8px;
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+      font-weight: 600;
+      margin-top: 15px;
+      animation: fadeIn 0.5s ease-in-out;
     }
-</style>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
         <a class="navbar-brand" href="index.html">Student Management</a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
+            <li class="nav-item">
+              <a class="nav-link" href="students.html">View Students</a>
+            </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="students.html">View Students</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="add-student.html">Add Student</a>
-                </li>
-
-            </ul>
+            <li class="nav-item">
+              <a class="nav-link" href="add-student.html">Add Student</a>
+            </li>
+          </ul>
         </div>
-
-    </div>
-</nav>
-<div class="container mt-4">
-    <h2>Add Student</h2>
-    <form id="studentForm">
-        <input class="form-control mt-2" placeholder="Name" id="name">
-        <input class="form-control mt-2" placeholder="Email" id="email">
-        <input class="form-control mt-2" placeholder="Course" id="course">
-        <input class="form-control mt-2" placeholder="Fee" id="fee">
-        <input type="button" value="Submit" class="btn btn-success mt-3" onclick="addStudent()">
+      </div>
+    </nav>
+    <div class="container mt-5" style="max-width: 600px">
+      <h2 class="mb-4 text-center">Add Student</h2>
+      <form id="studentForm">
+        <input class="form-control mb-3" placeholder="Student Name" id="name" />
+        <input
+          class="form-control mb-3"
+          placeholder="Email Address"
+          id="email"
+        />
+        <input class="form-control mb-3" placeholder="Course" id="course" />
+        <input class="form-control mb-3" placeholder="Fees" id="fee" />
+        <input
+          type="button"
+          value="Submit"
+          class="btn btn-success mt-3"
+          onclick="addStudent()"
+        />
         <a href="students.html" class="btn btn-success mt-3">View</a>
-    </form>
-    <span id="msg"></span>
-</div>
+      </form>
+      <span id="msg"></span>
+    </div>
 
-<script>
-    function addStudent() {
+    <script>
+      function addStudent() {
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const course = document.getElementById("course").value.trim();
+        const fee = document.getElementById("fee").value.trim();
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (name === "") {
+          showError("Name cannot be empty");
+          return;
+        }
+
+        if (!emailRegex.test(email)) {
+          showError("Enter a valid email");
+          return;
+        }
+
+        if (course === "") {
+          showError("Course cannot be empty");
+          return;
+        }
+
+        if (fee === "" || isNaN(fee) || Number(fee) <= 0) {
+          showError("Fee must be a positive number");
+          return;
+        }
+
         fetch("http://localhost:8080/students", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                studentName: document.getElementById("name").value,
-                studentEmail: document.getElementById("email").value,
-                studentCourse: document.getElementById("course").value,
-                studentFees: document.getElementById("fee").value
-            })
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            studentName: name,
+            studentEmail: email,
+            studentCourse: course,
+            studentFees: fee,
+          }),
         })
-        .then(res => res.json())
-        .then(data => {
+          .then((res) => res.json())
+          .then((data) => {
             generateMsg();
             document.getElementById("studentForm").reset();
-        })
-        .catch(err => {
+          })
+          .catch((err) => {
             alert("Error adding student ");
             console.log(err);
-        });
-    }
-    function generateMsg(){
-    let msg = document.getElementById("msg");
-    msg.innerHTML = "Student Added Successfully";
-    msg.className = "msg-box";
-     setTimeout(()=>{
-        msg.innerHTML = "";
-        msg.className = "";
-        },3000);
-}
-</script>
-</body>
+          });
+      }
+      function generateMsg() {
+        let msg = document.getElementById("msg");
+        msg.innerHTML = "Student Added Successfully";
+        msg.className = "msg-box";
+        setTimeout(() => {
+          msg.innerHTML = "";
+          msg.className = "";
+        }, 3000);
+      }
+      function showError(message) {
+        let msg = document.getElementById("msg");
+        msg.innerHTML = message;
+        msg.className = "error-box";
+
+        setTimeout(() => {
+          msg.innerHTML = "";
+          msg.className = "";
+        }, 3000);
+      }
+    </script>
+  </body>
 </html>
-
-
-
-

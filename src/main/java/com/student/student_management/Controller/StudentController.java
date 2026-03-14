@@ -1,7 +1,7 @@
 package com.student.student_management.Controller;
 
-import com.student.student_management.Entity.Student;
 import com.student.student_management.Service.StudentService;
+import com.student.student_management.dto.StudentDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,24 +16,24 @@ public class StudentController {
     }
 
     @PostMapping
-    public Student addStudent(@RequestBody Student student) {
-        return studentService.addStudent(student);
+    public StudentDTO addStudent(@RequestBody StudentDTO dto) {
+        return studentService.addStudent(dto);
     }
 
     @GetMapping
-    public List<Student> getAllStudents() {
+    public List<StudentDTO> getAllStudents() {
         return studentService.getAllStudents();
     }
 
     @GetMapping("/{id}")
-    public Student getStudentById(@PathVariable Long id) {
+    public StudentDTO getStudentById(@PathVariable Long id) {
         return studentService.getStudentById(id);
     }
 
     @PutMapping("/{id}")
-    public Student updateStudent(@PathVariable Long id, @RequestBody Student student) {
-        student.setStudentId(id);
-        return studentService.updateStudent(student);
+    public StudentDTO updateStudent(@PathVariable Long id, @RequestBody StudentDTO dto) {
+        dto.setStudentId(id);
+        return studentService.updateStudent(dto);
     }
 
     @PutMapping("/{id}/soft-delete")

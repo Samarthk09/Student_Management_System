@@ -64,4 +64,13 @@ public class StudentService {
         student.setStudentFees(dto.getStudentFees());
         return student;
     }
+
+    public List<StudentDTO> searchStudents(String name) {
+        List<Student> students = studentRepo
+                .findByStudentNameContainingIgnoreCaseAndDeletedFalse(name);
+
+        return students.stream()
+                .map(this::convertToDTO)
+                .toList();
+    }
 }

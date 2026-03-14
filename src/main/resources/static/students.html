@@ -28,6 +28,9 @@
 </nav>
 <div class="container mt-4">
     <h2>Students List</h2>
+    <div style="margin-bottom:20px;">
+        <input type="text" id="searchInput" placeholder="Search student by name" onkeyup="searchStudents()">
+    </div>
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -43,6 +46,29 @@
     </table>
 </div>
 <script>
+    async function searchStudents(){
+    const name = document.getElementById("searchInput").value;
+    const response = await fetch(`/students/search?name=${name}`);
+    const students = await response.json();
+    const tableBody = document.getElementById("studentTable");
+    tableBody.innerHTML = "";
+    students.forEach(student => {
+        const row = `
+            <tr>
+                <td>${student.studentId}</td>
+                <td>${student.studentName}</td>
+                <td>${student.studentEmail}</td>
+                <td>${student.studentCourse}</td>
+                <td>${student.studentFees}</td>
+                <td>
+                    <button onclick="editStudent(${student.studentId})">Edit</button>
+                    <button onclick="deleteStudent(${student.studentId})">Delete</button>
+                </td>
+            </tr>
+        `;
+        tableBody.innerHTML += row;
+    });
+}
     fetch("http://localhost:8080/students")
     .then(response => response.json())
     .then(data => {

@@ -2,6 +2,7 @@ package com.student.student_management.Controller;
 
 import com.student.student_management.Service.StudentService;
 import com.student.student_management.dto.StudentDTO;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public StudentDTO addStudent(@RequestBody StudentDTO dto) {
+    public StudentDTO addStudent(@Valid @RequestBody StudentDTO dto) {
         return studentService.addStudent(dto);
     }
 
@@ -31,7 +32,7 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public StudentDTO updateStudent(@PathVariable Long id, @RequestBody StudentDTO dto) {
+    public StudentDTO updateStudent(@PathVariable Long id, @Valid @RequestBody StudentDTO dto) {
         dto.setStudentId(id);
         return studentService.updateStudent(dto);
     }
@@ -39,5 +40,10 @@ public class StudentController {
     @PutMapping("/{id}/soft-delete")
     public void softDeleteStudent(@PathVariable Long id) {
         studentService.softDeleteStudent(id);
+    }
+
+    @GetMapping("/search")
+    public List<StudentDTO> searchStudents(@RequestParam String name) {
+        return studentService.searchStudents(name);
     }
 }

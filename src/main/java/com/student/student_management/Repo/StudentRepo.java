@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface StudentRepo extends JpaRepository<Student, Long> {
     List<Student> findByDeletedFalse();
+
+    List<Student> findByStudentNameContainingIgnoreCaseAndDeletedFalse(String name);
 }

@@ -75,7 +75,7 @@ student-management
 How to Run This Project
 
 Step 1: Clone the repository
-git clone https://github.com/your-username/student-management.git
+git clone https://github.com/Samarthk09/student-management.git
 
 Step 2: Open in IntelliJ IDEA
 Open the project as a Maven Project.

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - Student Management</title>
+    <style>
+        body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+            margin:0;
+        }
+
+        .login-container{
+            background:white;
+            padding:40px;
+            border-radius:12px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.2);
+            width:350px;
+            text-align:center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        h2{
+            margin-bottom:20px;
+            color:#333;
+        }
+
+        input{
+            width:100%;
+            padding:12px;
+            margin-top:12px;
+            border:1px solid #ccc;
+            border-radius:6px;
+            outline:none;
+            transition:0.3s;
+        }
+
+        input:focus{
+            border-color:#007bff;
+            box-shadow:0 0 5px rgba(0,123,255,0.5);
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+            margin-top:18px;
+            background:#007bff;
+            border:none;
+            border-radius:6px;
+            color:white;
+            font-size:16px;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        button:hover{
+            background:#0056b3;
+        }
+
+        .register-btn{
+            background:#28a745;
+        }
+
+        .register-btn:hover{
+            background:#1e7e34;
+        }
+
+        .divider{
+            margin:15px 0;
+            color:#999;
+        }
+
+        @keyframes fadeIn {
+            from { opacity:0; transform:translateY(10px);}
+            to { opacity:1; transform:translateY(0);}
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <h2>Login</h2>
+    <form method="POST" action="/login">
+        <input
+                type="email"
+                name="email"
+                placeholder="Enter Email"
+                required
+        >
+        <input
+                type="password"
+                name="password"
+                placeholder="Enter Password"
+                required
+        >
+        <button type="submit">Login</button>
+        <div class="divider">OR</div>
+
+        <button type="button" class="register-btn" onclick="goToRegister()">
+            Register
+        </button>
+    </form>
+</div>
+<script>
+    function goToRegister() {
+        window.location.href = "register.html";
+    }
+</script>
+</body>
+</html>

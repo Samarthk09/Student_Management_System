@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - Student Management System</title>
+
+    <style>
+        body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+            margin:0;
+        }
+
+        .register-container{
+            background:white;
+            padding:40px;
+            border-radius:12px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.2);
+            width:350px;
+            text-align:center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        h2{
+            margin-bottom:20px;
+            color:#333;
+        }
+
+        input{
+            width:100%;
+            padding:12px;
+            margin-top:12px;
+            border:1px solid #ccc;
+            border-radius:6px;
+            outline:none;
+            transition:0.3s;
+        }
+
+        input:focus{
+            border-color:#28a745;
+            box-shadow:0 0 5px rgba(40,167,69,0.5);
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+            margin-top:18px;
+            background:#28a745;
+            border:none;
+            border-radius:6px;
+            color:white;
+            font-size:16px;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        button:hover{
+            background:#1e7e34;
+        }
+
+        .login-link{
+            margin-top:15px;
+            display:block;
+            color:#007bff;
+            cursor:pointer;
+        }
+
+        .login-link:hover{
+            text-decoration:underline;
+        }
+
+        .error{
+            color:red;
+            margin-top:10px;
+            font-size:14px;
+        }
+
+        .success{
+            color:green;
+            margin-top:10px;
+            font-size:14px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity:0; transform:translateY(10px);}
+            to { opacity:1; transform:translateY(0);}
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="register-container">
+    <h2>Create Account</h2>
+
+    <form id="registerForm">
+        <input type="email" id="email" placeholder="Enter Email" required>
+        <input type="password" id="password" placeholder="Enter Password" required>
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <div id="message"></div>
+
+    <span class="login-link" onclick="goToLogin()">Already have an account? Login</span>
+</div>
+
+<script>
+    function goToLogin() {
+        window.location.href = "login.html";
+    }
+
+    document.getElementById("registerForm").addEventListener("submit", async function(e) {
+        e.preventDefault();
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+        const message = document.getElementById("message");
+        message.innerHTML = "";
+        if(password !== confirmPassword){
+            message.innerHTML = "<div class='error'>Passwords do not match</div>";
+            return;
+        }
+
+        try{
+            const response = await fetch("/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            });
+
+            const result = await response.text();
+
+            if(response.ok){
+                message.innerHTML = "<div class='success'>Registration successful! Redirecting to login...</div>";
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 1500);
+            }else{
+                message.innerHTML = "<div class='error'>" + result + "</div>";
+            }
+
+        }catch(err){
+            message.innerHTML = "<div class='error'>Server error. Please try again.</div>";
+        }
+    });
+</script>
+</body>
+</html>

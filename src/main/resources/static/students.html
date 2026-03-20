@@ -1,67 +1,53 @@
 <!doctype html>
 <html>
-  <head>
+<head>
     <title>Students</title>
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
     />
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="index.html">Student Management</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="students.html">View Students</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="add-student.html">Add Student</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <div class="container mt-4">
-      <h2>Students List</h2>
-      <div class="row mb-3">
+</head>
+<body>
+<div id="navbar"></div>
+<div class="container mt-4">
+    <h2>Students List</h2>
+    <div class="row mb-3">
         <div class="col-md-6">
-          <input
-            type="text"
-            class="form-control"
-            id="searchInput"
-            placeholder="Search student by name"
-            onkeyup="searchStudents()"
-          />
+            <input
+                    type="text"
+                    class="form-control"
+                    id="searchInput"
+                    placeholder="Search student by name"
+                    onkeyup="searchStudents()"
+            />
         </div>
-      </div>
-      <table class="table table-striped table-hover shadow-sm">
+    </div>
+    <table class="table table-striped table-hover shadow-sm">
         <thead>
-          <tr>
+        <tr>
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
             <th>Course</th>
             <th>Fee</th>
             <th>Actions</th>
-          </tr>
+        </tr>
         </thead>
         <tbody id="studentTable"></tbody>
-      </table>
-    </div>
-    <script>
+    </table>
+</div>
+<script>
+    fetch("navbar.html")
+        .then(res => res.text())
+        .then(data => {
+            document.getElementById("navbar").innerHTML = data;
+
+            fetch("/current-user")
+                .then(response => response.text())
+                .then(user => {
+                    document.getElementById("username").innerText = user;
+                });
+        });
       async function searchStudents() {
         const name = document.getElementById("searchInput").value;
         const response = await fetch(`/students/search?name=${name}`);
@@ -125,6 +111,6 @@
           });
         }
       }
-    </script>
-  </body>
+</script>
+</body>
 </html>
